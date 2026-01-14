@@ -2,126 +2,136 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>День Рождения</title>
+<title>Birthday Invite</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+:root {
+  --bg1:#0f2027;
+  --bg2:#203a43;
+  --bg3:#2c5364;
+  --glass:rgba(255,255,255,0.12);
+  --border:rgba(255,255,255,0.25);
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui;
 }
 
 body {
-  height: 100vh;
-  background: radial-gradient(circle at top, #1b1b1b, #050505);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  overflow: hidden;
+  height:100vh;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  overflow:hidden;
 }
 
-/* ОГОНЬКИ */
-.light {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: rgba(255,255,255,0.6);
-  border-radius: 50%;
-  filter: blur(1px);
-  animation: float 8s linear infinite;
+/* ===== ОГОНЬКИ ===== */
+.spark {
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:rgba(255,255,255,0.7);
+  border-radius:50%;
+  filter:blur(1px);
+  animation:floatUp 10s linear infinite;
 }
 
-@keyframes float {
-  from { transform: translateY(100vh); opacity: 0; }
-  20% { opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+@keyframes floatUp {
+  from { transform:translateY(110vh); opacity:0; }
+  15% { opacity:1; }
+  to { transform:translateY(-10vh); opacity:0; }
 }
 
-/* КАРТОЧКА */
+/* ===== КАРТОЧКА ===== */
 .card {
-  width: 90%;
-  max-width: 380px;
-  padding: 26px;
-  border-radius: 26px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.2);
-  text-align: center;
-  z-index: 2;
-  animation: appear 0.8s ease;
+  width:92%;
+  max-width:380px;
+  padding:26px;
+  border-radius:26px;
+  background:var(--glass);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  animation:appear .9s ease;
+  z-index:2;
 }
 
 @keyframes appear {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity:0; transform:scale(.94); }
+  to { opacity:1; transform:scale(1); }
 }
 
 h1 {
-  font-size: 1.9rem;
-  margin-bottom: 12px;
+  font-size:1.9rem;
+  margin-bottom:12px;
 }
 
 p {
-  font-size: 1.05rem;
-  opacity: 0.9;
-  margin: 6px 0;
+  font-size:1.05rem;
+  opacity:.9;
+  margin:6px 0;
 }
 
 .line {
-  width: 60%;
-  height: 1px;
-  background: rgba(255,255,255,0.3);
-  margin: 14px auto;
+  width:60%;
+  height:1px;
+  background:rgba(255,255,255,.35);
+  margin:14px auto;
 }
 
 button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 999px;
-  border: none;
-  background: white;
-  color: black;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-top: 16px;
-  transition: 0.25s;
+  width:100%;
+  padding:14px;
+  margin-top:16px;
+  border:none;
+  border-radius:999px;
+  background:#fff;
+  color:#000;
+  font-weight:600;
+  font-size:1rem;
+  transition:.25s;
 }
 
 button:active {
-  transform: scale(0.95);
+  transform:scale(.95);
 }
 
+/* ===== ТАЙМЕР ===== */
 #timer {
-  margin-top: 12px;
-  font-weight: 600;
-  font-size: 1.15rem;
-  background: linear-gradient(90deg,#ff5edf,#04c8de,#f9f871);
-  -webkit-background-clip: text;
-  color: transparent;
+  margin-top:10px;
+  font-weight:600;
+  font-size:1.15rem;
+  background:linear-gradient(90deg,#ffecd2,#fcb69f,#ffecd2);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-.hidden { display: none; }
+.hidden { display:none; }
 </style>
 </head>
 
 <body>
 
-<!-- ОГОНЬКИ -->
 <script>
-for(let i=0;i<25;i++){
-  const l=document.createElement("div");
-  l.className="light";
-  l.style.left=Math.random()*100+"vw";
-  l.style.animationDelay=Math.random()*8+"s";
-  l.style.opacity=Math.random();
-  document.body.appendChild(l);
+/* Огоньки */
+for(let i=0;i<28;i++){
+  const s=document.createElement("div");
+  s.className="spark";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDelay=Math.random()*10+"s";
+  s.style.opacity=Math.random();
+  document.body.appendChild(s);
 }
 </script>
 
-<!-- ВХОД -->
+<!-- СТАРТ -->
 <div class="card" id="start">
   <h1>⚠️ Приглашение</h1>
   <p>Нажми, чтобы открыть</p>
@@ -154,12 +164,12 @@ function openInvite(){
   music.play();
 }
 
-/* ТАЙМЕР */
-const target = new Date("Jan 18, 2026 18:00:00").getTime();
+/* Таймер */
+const target=new Date("Jan 18, 2026 18:00:00").getTime();
 setInterval(()=>{
   const now=new Date().getTime();
   const d=target-now;
-  if(d<0){ timer.innerText="🎉 Уже сегодня!"; return; }
+  if(d<0){timer.innerText="🎉 Уже сегодня!";return;}
   const days=Math.floor(d/(1000*60*60*24));
   const hours=Math.floor((d%(1000*60*60*24))/(1000*60*60));
   const mins=Math.floor((d%(1000*60*60))/(1000*60));
