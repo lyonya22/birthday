@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Loyalty</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000; /* Черный фон */
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
+        .card {
+            background: rgba(255, 255, 255, 0.05); /* Прозрачность */
+            border: 1px solid #ffcc00; /* Желтая рамка */
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(255, 204, 0, 0.1);
+        }
+
+        h1 { color: #ffcc00; margin: 0; font-size: 24px; }
+        
+        .balance-label { font-size: 14px; color: #aaa; margin-top: 10px; }
+        .balance-value { font-size: 42px; font-weight: bold; color: #fff; margin: 5px 0; }
+        .balance-value span { color: #ffcc00; font-size: 20px; }
+
+        .shop-title {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 350px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffcc00;
+        }
+
+        .item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .item:active { background: rgba(255, 204, 0, 0.2); }
+
+        .item-info { text-align: left; }
+        .item-name { font-weight: bold; }
+        .item-price { color: #ffcc00; font-size: 14px; }
+
+        .buy-btn {
+            background: #ffcc00;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: auto;
+            font-size: 12px;
+            color: #555;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>FORMULA LOYALTY</h1>
+        <div class="balance-label">ВАШ БАЛАНС</div>
+        <div class="balance-value" id="balance">5000 <span>Б.</span></div>
+        <div style="color: #ffcc00;">Статус: GOLD MEMBER</div>
+    </div>
+
+    <div class="shop-title">Магазин бонусов</div>
+
+    <div class="item">
+        <div class="item-info">
+            <div class="item-name">Вода Formula 0.5</div>
+            <div class="item-price">500 баллов</div>
+        </div>
+        <button class="buy-btn" onclick="buy(500, 'Вода')">ОБМЕН</button>
+    </div>
+
+    <div class="item">
+        <div class="item-info">
+            <div class="item-name">Протеиновый батончик</div>
+            <div class="item-price">1200 баллов</div>
+        </div>
+        <button class="buy-btn" onclick="buy(1200, 'Батончик')">ОБМЕН</button>
+    </div>
+
+    <div class="item">
+        <div class="item-info">
+            <div class="item-name">Предтренировочный комплекс</div>
+            <div class="item-price">2500 баллов</div>
+        </div>
+        <button class="buy-btn" onclick="buy(2500, 'Предтреник')">ОБМЕН</button>
+    </div>
+
+    <div class="footer">FORMULA FITNESS CLUB — ТВОЙ РЕЗУЛЬТАТ ТУТ</div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Развернуть на весь экран
+        tg.headerColor = '#000000';
+
+        let balance = 5000;
+
+        function buy(price, name) {
+            if (balance >= price) {
+                balance -= price;
+                document.getElementById('balance').innerHTML = `${balance} <span>Б.</span>`;
+                tg.showAlert(`✅ Успешно! Предъявите этот код на баре для получения: ${name}`);
+            } else {
+                tg.showAlert("❌ Недостаточно баллов");
+            }
+        }
+    </script>
+</body>
+</html>
