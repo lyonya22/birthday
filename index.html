@@ -2,137 +2,182 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Formula Loyalty</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --main-yellow: #ffcc00;
+            --bg-black: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.07);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000; /* Черный фон */
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-black);
             color: #fff;
             margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow-x: hidden;
+            background: radial-gradient(circle at top right, #222, #0a0a0a);
         }
+
+        /* Анимация появления */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        /* Задержки для каждой плашки, чтобы они выходили по очереди */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
 
         .card {
-            background: rgba(255, 255, 255, 0.05); /* Прозрачность */
-            border: 1px solid #ffcc00; /* Желтая рамка */
-            border-radius: 20px;
-            padding: 20px;
-            width: 100%;
-            max-width: 350px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            border-radius: 24px;
+            padding: 25px;
             text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(255, 204, 0, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            margin-bottom: 25px;
         }
 
-        h1 { color: #ffcc00; margin: 0; font-size: 24px; }
+        h1 { 
+            color: var(--main-yellow); 
+            margin: 0; 
+            font-size: 20px; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
         
-        .balance-label { font-size: 14px; color: #aaa; margin-top: 10px; }
-        .balance-value { font-size: 42px; font-weight: bold; color: #fff; margin: 5px 0; }
-        .balance-value span { color: #ffcc00; font-size: 20px; }
+        .balance-value { 
+            font-size: 48px; 
+            font-weight: 800; 
+            margin: 10px 0;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .shop-title {
-            margin-top: 30px;
-            width: 100%;
-            max-width: 350px;
+            font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #ffcc00;
+            color: #666;
+            margin-bottom: 15px;
+            padding-left: 5px;
         }
 
         .item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 10px 0;
-            width: 100%;
-            max-width: 350px;
+            background: var(--glass);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s;
         }
 
-        .item:active { background: rgba(255, 204, 0, 0.2); }
+        .item:active {
+            transform: scale(0.97);
+            background: rgba(255, 204, 0, 0.1);
+        }
 
         .item-info { text-align: left; }
-        .item-name { font-weight: bold; }
-        .item-price { color: #ffcc00; font-size: 14px; }
+        .item-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+        .item-price { color: var(--main-yellow); font-size: 13px; font-weight: bold; }
 
         .buy-btn {
-            background: #ffcc00;
+            background: var(--main-yellow);
             color: #000;
             border: none;
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-weight: bold;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
         }
 
-        .footer {
-            margin-top: auto;
-            font-size: 12px;
-            color: #555;
-            padding: 20px;
+        .status-badge {
+            display: inline-block;
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--main-yellow);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>FORMULA LOYALTY</h1>
-        <div class="balance-label">ВАШ БАЛАНС</div>
-        <div class="balance-value" id="balance">5000 <span>Б.</span></div>
-        <div style="color: #ffcc00;">Статус: GOLD MEMBER</div>
+    <div class="card animate delay-1">
+        <h1>FORMULA</h1>
+        <div class="balance-value" id="balance">5,000</div>
+        <div class="status-badge">GOLD STATUS</div>
     </div>
 
-    <div class="shop-title">Магазин бонусов</div>
+    <div class="shop-title animate delay-2">Доступные бонусы</div>
 
-    <div class="item">
+    <div class="item animate delay-2">
         <div class="item-info">
             <div class="item-name">Вода Formula 0.5</div>
-            <div class="item-price">500 баллов</div>
+            <div class="item-price">500 БАЛЛОВ</div>
         </div>
         <button class="buy-btn" onclick="buy(500, 'Вода')">ОБМЕН</button>
     </div>
 
-    <div class="item">
+    <div class="item animate delay-3">
         <div class="item-info">
             <div class="item-name">Протеиновый батончик</div>
-            <div class="item-price">1200 баллов</div>
+            <div class="item-price">1,200 БАЛЛОВ</div>
         </div>
         <button class="buy-btn" onclick="buy(1200, 'Батончик')">ОБМЕН</button>
     </div>
 
-    <div class="item">
+    <div class="item animate delay-4">
         <div class="item-info">
-            <div class="item-name">Предтренировочный комплекс</div>
-            <div class="item-price">2500 баллов</div>
+            <div class="item-name">Предтреник (Shot)</div>
+            <div class="item-price">2,500 БАЛЛОВ</div>
         </div>
         <button class="buy-btn" onclick="buy(2500, 'Предтреник')">ОБМЕН</button>
     </div>
 
-    <div class="footer">FORMULA FITNESS CLUB — ТВОЙ РЕЗУЛЬТАТ ТУТ</div>
-
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Развернуть на весь экран
-        tg.headerColor = '#000000';
+        tg.expand();
+        tg.headerColor = '#0a0a0a';
+        tg.backgroundColor = '#0a0a0a';
 
         let balance = 5000;
 
         function buy(price, name) {
             if (balance >= price) {
                 balance -= price;
-                document.getElementById('balance').innerHTML = `${balance} <span>Б.</span>`;
-                tg.showAlert(`✅ Успешно! Предъявите этот код на баре для получения: ${name}`);
+                document.getElementById('balance').innerText = balance.toLocaleString();
+                tg.HapticFeedback.notificationOccurred('success'); // Вибрация при покупке!
+                tg.showAlert(`✅ Готово! Код для получения: FORM-${Math.floor(Math.random()*9000)+1000}`);
             } else {
-                tg.showAlert("❌ Недостаточно баллов");
+                tg.HapticFeedback.notificationOccurred('error');
+                tg.showAlert("❌ Мало баллов");
             }
         }
     </script>
