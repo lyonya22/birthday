@@ -261,19 +261,71 @@
 
     <div class="card reveal">
         <h2><span>03.</span> Вопросы</h2>
+        
+        <style>
+            .faq-item { 
+                border-bottom: 1px solid var(--border); 
+                padding: 20px 0; 
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+            .faq-question {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 1.05rem;
+                font-weight: 600;
+                color: #fff;
+            }
+            .faq-answer { 
+                max-height: 0; 
+                overflow: hidden; 
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+                color: var(--gray);
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+            .faq-item.active .faq-answer { 
+                max-height: 300px; /* Увеличил, чтобы текст точно влезал */
+                margin-top: 15px;
+                opacity: 1;
+            }
+            .faq-icon {
+                transition: transform 0.3s ease;
+                font-size: 1.2rem;
+                color: var(--gray);
+            }
+            .faq-item.active .faq-icon {
+                transform: rotate(45deg);
+                color: #fff;
+            }
+        </style>
+
         <div class="faq-item reveal delay-1" onclick="toggleFaq(this)">
-            <div class="faq-question">Какие сроки разработки? <span>+</span></div>
-            <div class="faq-answer">Сроки зависят от тарифа. Простые решения — до 3 дней, сложные системы — от недели.</div>
+            <div class="faq-question">Какие сроки разработки? <span class="faq-icon">+</span></div>
+            <div class="faq-answer">
+                Сроки зависят от выбранного тарифа. Простые боты-визитки создаются за 1-3 дня. Сложные системы с базами данных и Web-интерфейсами занимают от 7 до 14 рабочих дней.
+            </div>
         </div>
+
         <div class="faq-item reveal delay-2" onclick="toggleFaq(this)">
-            <div class="faq-question">Помогаете ли вы с хостингом? <span>+</span></div>
-            <div class="faq-answer">Да, я полностью настраиваю сервер и деплою бота, чтобы он работал 24/7.</div>
+            <div class="faq-question">Помогаете ли вы с хостингом? <span class="faq-icon">+</span></div>
+            <div class="faq-answer">
+                Да, я беру на себя полную настройку сервера (VPS). Бот будет работать стабильно 24/7. Также предоставляю инструкции по управлению или беру обслуживание на себя.
+            </div>
+        </div>
+
+        <div class="faq-item reveal delay-3" onclick="toggleFaq(this)">
+            <div class="faq-question">Как происходит оплата? <span class="faq-icon">+</span></div>
+            <div class="faq-answer">
+                Работаю по предоплате 50% после согласования технического задания. Оставшаяся часть оплачивается после демонстрации готового функционала на тестовом сервере.
+            </div>
         </div>
     </div>
 
     <div class="card reveal" style="text-align: center;">
         <h2 style="justify-content: center;"><span>04.</span> Связь</h2>
-        <p style="color: var(--gray); margin-bottom: 30px;">Готовы обсудить ваш проект?</p>
+        <p style="color: var(--gray); margin-bottom: 30px;">Готовы обсудить ваш проект или остались вопросы?</p>
         <button class="btn-contact" onclick="contact()">Написать в Telegram</button>
     </div>
 
@@ -282,12 +334,13 @@
 <footer>&copy; 2026 NEXUS BOTS &bull; MATVEY SOLUTIONS</footer>
 
 <script>
+    // Анимация появления при скролле
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
             var windowHeight = window.innerHeight;
             var elementTop = reveals[i].getBoundingClientRect().top;
-            if (elementTop < windowHeight - 100) {
+            if (elementTop < windowHeight - 50) {
                 reveals[i].classList.add("active");
             }
         }
@@ -295,7 +348,15 @@
     window.addEventListener("scroll", reveal);
     window.addEventListener("load", reveal);
 
-    function toggleFaq(element) { element.classList.toggle('active'); }
+    // Функция FAQ (переключение класса)
+    function toggleFaq(element) {
+        // Закрыть другие открытые вопросы (опционально)
+        // document.querySelectorAll('.faq-item').forEach(item => {
+        //    if(item !== element) item.classList.remove('active');
+        // });
+        element.classList.toggle('active');
+    }
+
     function contact(){ window.open("https://t.me/lyohakray", "_blank"); }
 </script>
 
