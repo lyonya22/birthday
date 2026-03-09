@@ -1,185 +1,148 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Formula Loyalty</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --main-yellow: #ffcc00;
-            --bg-black: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.07);
-        }
+<meta charset="UTF-8">
+<title>Лёня | Разработчик ботов</title>
 
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-black);
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
-            background: radial-gradient(circle at top right, #222, #0a0a0a);
-        }
+<style>
 
-        /* Анимация появления */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+body{
+margin:0;
+font-family:Arial;
+background:#0f0f0f;
+color:white;
+}
 
-        .animate {
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-        }
+header{
+text-align:center;
+padding:60px;
+background:linear-gradient(135deg,#6a00ff,#2b00ff);
+}
 
-        /* Задержки для каждой плашки, чтобы они выходили по очереди */
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
+header h1{
+font-size:40px;
+margin:0;
+}
 
-        .card {
-            background: var(--glass);
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            border-radius: 24px;
-            padding: 25px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            margin-bottom: 25px;
-        }
+header p{
+opacity:0.8;
+}
 
-        h1 { 
-            color: var(--main-yellow); 
-            margin: 0; 
-            font-size: 20px; 
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        
-        .balance-value { 
-            font-size: 48px; 
-            font-weight: 800; 
-            margin: 10px 0;
-            background: linear-gradient(to bottom, #fff, #999);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.container{
+max-width:900px;
+margin:auto;
+padding:40px;
+}
 
-        .shop-title {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 15px;
-            padding-left: 5px;
-        }
+.card{
+background:#1a1a1a;
+padding:25px;
+margin-bottom:25px;
+border-radius:12px;
+transition:0.3s;
+}
 
-        .item {
-            background: var(--glass);
-            border-radius: 18px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s;
-        }
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
+}
 
-        .item:active {
-            transform: scale(0.97);
-            background: rgba(255, 204, 0, 0.1);
-        }
+.skills{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
 
-        .item-info { text-align: left; }
-        .item-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-        .item-price { color: var(--main-yellow); font-size: 13px; font-weight: bold; }
+.skill{
+background:#2a2a2a;
+padding:15px;
+border-radius:8px;
+text-align:center;
+}
 
-        .buy-btn {
-            background: var(--main-yellow);
-            color: #000;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
-        }
+.contact{
+text-align:center;
+}
 
-        .status-badge {
-            display: inline-block;
-            background: rgba(255, 204, 0, 0.1);
-            color: var(--main-yellow);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-    </style>
+button{
+background:#6a00ff;
+border:none;
+padding:12px 25px;
+color:white;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#8a2cff;
+}
+
+footer{
+text-align:center;
+padding:20px;
+opacity:0.6;
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="card animate delay-1">
-        <h1>FORMULA</h1>
-        <div class="balance-value" id="balance">5,000</div>
-        <div class="status-badge">GOLD STATUS</div>
-    </div>
+<header>
+<h1>Лёня</h1>
+<p>Разработчик Telegram-ботов и автоматизации</p>
+</header>
 
-    <div class="shop-title animate delay-2">Доступные бонусы</div>
+<div class="container">
 
-    <div class="item animate delay-2">
-        <div class="item-info">
-            <div class="item-name">Вода Formula 0.5</div>
-            <div class="item-price">500 БАЛЛОВ</div>
-        </div>
-        <button class="buy-btn" onclick="buy(500, 'Вода')">ОБМЕН</button>
-    </div>
+<div class="card">
+<h2>Обо мне</h2>
+<p>
+Я создаю Telegram-ботов, автоматизацию и цифровые инструменты для бизнеса.
+Могу сделать бота под любую задачу: запись клиентов, автопостинг, системы заявок,
+игровые боты и кастомные проекты.
+</p>
+</div>
 
-    <div class="item animate delay-3">
-        <div class="item-info">
-            <div class="item-name">Протеиновый батончик</div>
-            <div class="item-price">1,200 БАЛЛОВ</div>
-        </div>
-        <button class="buy-btn" onclick="buy(1200, 'Батончик')">ОБМЕН</button>
-    </div>
+<div class="card">
+<h2>Что я умею</h2>
 
-    <div class="item animate delay-4">
-        <div class="item-info">
-            <div class="item-name">Предтреник (Shot)</div>
-            <div class="item-price">2,500 БАЛЛОВ</div>
-        </div>
-        <button class="buy-btn" onclick="buy(2500, 'Предтреник')">ОБМЕН</button>
-    </div>
+<div class="skills">
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.headerColor = '#0a0a0a';
-        tg.backgroundColor = '#0a0a0a';
+<div class="skill">Telegram боты</div>
+<div class="skill">Автоматизация бизнеса</div>
+<div class="skill">Парсеры</div>
+<div class="skill">Боты для каналов</div>
+<div class="skill">Игровые боты</div>
+<div class="skill">Сайты</div>
 
-        let balance = 5000;
+</div>
 
-        function buy(price, name) {
-            if (balance >= price) {
-                balance -= price;
-                document.getElementById('balance').innerText = balance.toLocaleString();
-                tg.HapticFeedback.notificationOccurred('success'); // Вибрация при покупке!
-                tg.showAlert(`✅ Готово! Код для получения: FORM-${Math.floor(Math.random()*9000)+1000}`);
-            } else {
-                tg.HapticFeedback.notificationOccurred('error');
-                tg.showAlert("❌ Мало баллов");
-            }
-        }
-    </script>
+</div>
+
+<div class="card contact">
+<h2>Связаться со мной</h2>
+<p>Нажми кнопку и напиши мне</p>
+
+<button onclick="contact()">Написать</button>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Лёня
+</footer>
+
+<script>
+
+function contact(){
+window.open("https://t.me/username");
+}
+
+</script>
+
 </body>
 </html>
