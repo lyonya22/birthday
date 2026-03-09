@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Анимации появления (как на Web-Valley) --- */
+        /* Анимации появления */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -42,7 +42,6 @@
             transform: translateY(0);
         }
 
-        /* Задержки для последовательного появления */
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
@@ -76,11 +75,7 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         header {
             height: 80vh;
@@ -103,7 +98,7 @@
         }
 
         .container {
-            max-width: 850px;
+            max-width: 900px;
             margin: auto;
             padding: 0 20px 100px;
         }
@@ -121,47 +116,60 @@
 
         .card:hover { border-color: rgba(255,255,255,0.2); }
 
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
         h2 span { color: var(--gray); font-weight: 300; font-size: 1.1rem; }
 
-        /* Тарифы */
+        /* --- Стили для цен --- */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
+            margin-top: 20px;
         }
 
         .price-item {
             background: rgba(255,255,255,0.02);
-            padding: 25px;
-            border-radius: 20px;
+            padding: 30px 20px;
+            border-radius: 24px;
             border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
         }
 
-        .price-tag { font-size: 1.8rem; font-weight: 800; margin: 10px 0; }
+        .price-tag { font-size: 2rem; font-weight: 800; margin: 15px 0; color: #fff; }
+        
+        .price-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .price-features li {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .price-features li::before {
+            content: "✓";
+            color: var(--status-green);
+        }
+
+        .price-time {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         /* FAQ */
-        .faq-item {
-            border-bottom: 1px solid var(--border);
-            padding: 20px 0;
-            cursor: pointer;
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: var(--gray);
-        }
-
+        .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: var(--gray); }
         .faq-item.active .faq-answer { max-height: 200px; margin-top: 10px; }
 
         .btn-contact {
@@ -203,51 +211,70 @@
 <div class="container">
 
     <div class="card reveal">
-        <h2 class="reveal delay-1"><span>01.</span> Обо мне</h2>
-        <p class="reveal delay-2" style="color: var(--gray);">Разработчик из <b>Казахстана</b>. Помогаю бизнесу автоматизировать процессы с помощью продвинутых ботов и Web-интерфейсов. Мой код — это ваша эффективность.</p>
+        <h2><span>01.</span> Обо мне</h2>
+        <p style="color: var(--gray);">Разработчик из <b>Казахстана</b>. Помогаю бизнесу автоматизировать процессы с помощью продвинутых ботов и Web-интерфейсов. Мой код — это ваша эффективность.</p>
     </div>
 
     <div class="card reveal">
-        <h2 class="reveal"><span>02.</span> Стоимость</h2>
+        <h2><span>02.</span> Тарифы и Услуги</h2>
         <div class="pricing-grid">
+            
             <div class="price-item reveal delay-1">
                 <h3>Light</h3>
                 <div class="price-tag">от 15$</div>
-                <p style="font-size: 0.8rem; color: var(--gray);"><li>Простые боты визитки</li>
-                    <li>Автоответчики</li>
-                    <li>Сбор заявок</li>
+                <ul class="price-features">
+                    <li>Бот-визитка / Меню услуг</li>
+                    <li>Автоматический сбор заявок</li>
+                    <li>Рассылка сообщений</li>
+                    <li>Кнопки связи и локации</li>
+                </ul>
+                <div class="price-time">Срок: 1-3 дня</div>
             </div>
-            <div class="price-item reveal delay-2" style="border-color: rgba(255,255,255,0.2);">
+
+            <div class="price-item reveal delay-2" style="border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04);">
                 <h3>Standard</h3>
                 <div class="price-tag">от 50$</div>
-                <p style="font-size: 0.8rem; color: var(--gray);"><li>Магазины / Каталоги</li>
-                    <li>Админ-панели</li>
-                    <li>Интеграция оплат</li>
-</p>
+                <ul class="price-features">
+                    <li>Магазины / Каталоги</li>
+                    <li>Личный кабинет пользователя</li>
+                    <li>Подключение платежей (RU/Мир)</li>
+                    <li>Админ-панель в боте</li>
+                    <li>База данных (PostgreSQL)</li>
+                </ul>
+                <div class="price-time">Срок: 4-7 дней</div>
             </div>
+
+            <div class="price-item reveal delay-3">
+                <h3>Custom</h3>
+                <div class="price-tag">от 150$</div>
+                <ul class="price-features">
+                    <li>Telegram Mini Apps (WebApps)</li>
+                    <li>Парсеры любого контента</li>
+                    <li>Интеграция через API</li>
+                    <li>Нейросети (ChatGPT / Vision)</li>
+                </ul>
+                <div class="price-time">Срок: от 10 дней</div>
+            </div>
+
         </div>
     </div>
 
     <div class="card reveal">
-        <h2 class="reveal"><span>03.</span> Вопросы</h2>
-        
+        <h2><span>03.</span> Вопросы</h2>
         <div class="faq-item reveal delay-1" onclick="toggleFaq(this)">
             <div class="faq-question">Какие сроки разработки? <span>+</span></div>
-            <div class="faq-answer">Обычно от 2 до 10 дней в зависимости от сложности.</div>
+            <div class="faq-answer">Сроки зависят от тарифа. Простые решения — до 3 дней, сложные системы — от недели.</div>
         </div>
-
         <div class="faq-item reveal delay-2" onclick="toggleFaq(this)">
-            <div class="faq-question">Будет ли поддержка? <span>+</span></div>
-            <div class="faq-answer">Да, я всегда на связи после запуска проекта.</div>
+            <div class="faq-question">Помогаете ли вы с хостингом? <span>+</span></div>
+            <div class="faq-answer">Да, я полностью настраиваю сервер и деплою бота, чтобы он работал 24/7.</div>
         </div>
     </div>
 
     <div class="card reveal" style="text-align: center;">
-        <h2 class="reveal" style="justify-content: center;"><span>04.</span> Связь</h2>
-        <p class="reveal delay-1" style="color: var(--gray); margin-bottom: 30px;">Готовы обсудить ваш проект?</p>
-        <div class="reveal delay-2">
-            <button class="btn-contact" onclick="contact()">Написать в Telegram</button>
-        </div>
+        <h2 style="justify-content: center;"><span>04.</span> Связь</h2>
+        <p style="color: var(--gray); margin-bottom: 30px;">Готовы обсудить ваш проект?</p>
+        <button class="btn-contact" onclick="contact()">Написать в Telegram</button>
     </div>
 
 </div>
@@ -255,31 +282,21 @@
 <footer>&copy; 2026 NEXUS BOTS &bull; MATVEY SOLUTIONS</footer>
 
 <script>
-    // Универсальная функция появления элементов при скролле
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
             var windowHeight = window.innerHeight;
             var elementTop = reveals[i].getBoundingClientRect().top;
-            var elementVisible = 100; // Элемент появится, когда до него останется 100px
-            
-            if (elementTop < windowHeight - elementVisible) {
+            if (elementTop < windowHeight - 100) {
                 reveals[i].classList.add("active");
             }
         }
     }
-
-    // Запуск при скролле и при загрузке
     window.addEventListener("scroll", reveal);
     window.addEventListener("load", reveal);
 
-    function toggleFaq(element) {
-        element.classList.toggle('active');
-    }
-
-    function contact(){
-        window.open("https://t.me/lyohakray", "_blank");
-    }
+    function toggleFaq(element) { element.classList.toggle('active'); }
+    function contact(){ window.open("https://t.me/lyohakray", "_blank"); }
 </script>
 
 </body>
