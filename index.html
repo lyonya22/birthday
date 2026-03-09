@@ -19,7 +19,7 @@
             --status-green: #00ff88;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
             margin: 0;
@@ -28,6 +28,50 @@
             color: var(--accent);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        /* --- НОВЫЕ СТИЛИ: Прогресс-бар --- */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--status-green);
+            width: 0%;
+            z-index: 9999;
+            box-shadow: 0 0 10px var(--status-green);
+            transition: width 0.1s ease-out;
+        }
+
+        /* --- НОВЫЕ СТИЛИ: Кнопка Наверх --- */
+        #scrollTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        #scrollTop.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #scrollTop:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.1);
         }
 
         /* Анимации появления */
@@ -168,9 +212,42 @@
         }
 
         /* FAQ */
-        .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: var(--gray); }
-        .faq-item.active .faq-answer { max-height: 200px; margin-top: 10px; }
+        .faq-item { 
+            border-bottom: 1px solid var(--border); 
+            padding: 20px 0; 
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .faq-answer { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .faq-item.active .faq-answer { 
+            max-height: 300px;
+            margin-top: 15px;
+            opacity: 1;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+            color: #fff;
+        }
 
         .btn-contact {
             background: var(--accent);
@@ -192,11 +269,15 @@
         @media (max-width: 600px) {
             .card { padding: 30px 20px; }
             header h1 { font-size: 3.5rem; }
+            #scrollTop { bottom: 20px; right: 20px; width: 45px; height: 45px; }
         }
     </style>
 </head>
 
 <body>
+
+<div id="progress-bar"></div>
+<div id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">▲</div>
 
 <div class="bg-glow"></div>
 
@@ -262,45 +343,6 @@
     <div class="card reveal">
         <h2><span>03.</span> Вопросы</h2>
         
-        <style>
-            .faq-item { 
-                border-bottom: 1px solid var(--border); 
-                padding: 20px 0; 
-                cursor: pointer;
-                transition: background 0.3s ease;
-            }
-            .faq-question {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 1.05rem;
-                font-weight: 600;
-                color: #fff;
-            }
-            .faq-answer { 
-                max-height: 0; 
-                overflow: hidden; 
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-                color: var(--gray);
-                font-size: 0.95rem;
-                line-height: 1.5;
-            }
-            .faq-item.active .faq-answer { 
-                max-height: 300px; /* Увеличил, чтобы текст точно влезал */
-                margin-top: 15px;
-                opacity: 1;
-            }
-            .faq-icon {
-                transition: transform 0.3s ease;
-                font-size: 1.2rem;
-                color: var(--gray);
-            }
-            .faq-item.active .faq-icon {
-                transform: rotate(45deg);
-                color: #fff;
-            }
-        </style>
-
         <div class="faq-item reveal delay-1" onclick="toggleFaq(this)">
             <div class="faq-question">Какие сроки разработки? <span class="faq-icon">+</span></div>
             <div class="faq-answer">
@@ -334,26 +376,44 @@
 <footer>&copy; 2026 NEXUS BOTS &bull; MATVEY SOLUTIONS</footer>
 
 <script>
-    // Анимация появления при скролле
-    function reveal() {
+    // Анимация появления и логика прогресс-бара
+    window.addEventListener("scroll", function() {
+        // 1. Появление элементов
         var reveals = document.querySelectorAll(".reveal");
-        for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var elementTop = reveals[i].getBoundingClientRect().top;
+        var windowHeight = window.innerHeight;
+        reveals.forEach(el => {
+            var elementTop = el.getBoundingClientRect().top;
             if (elementTop < windowHeight - 50) {
-                reveals[i].classList.add("active");
+                el.classList.add("active");
             }
-        }
-    }
-    window.addEventListener("scroll", reveal);
-    window.addEventListener("load", reveal);
+        });
 
-    // Функция FAQ (переключение класса)
+        // 2. Прогресс-бар
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("progress-bar").style.width = scrolled + "%";
+
+        // 3. Кнопка Наверх
+        var btn = document.getElementById("scrollTop");
+        if (winScroll > 400) {
+            btn.classList.add("show");
+        } else {
+            btn.classList.remove("show");
+        }
+    });
+
+    // Запуск анимации при первой загрузке
+    window.addEventListener("load", function() {
+        var reveals = document.querySelectorAll(".reveal");
+        reveals.forEach(el => {
+            if (el.getBoundingClientRect().top < window.innerHeight) {
+                el.classList.add("active");
+            }
+        });
+    });
+
     function toggleFaq(element) {
-        // Закрыть другие открытые вопросы (опционально)
-        // document.querySelectorAll('.faq-item').forEach(item => {
-        //    if(item !== element) item.classList.remove('active');
-        // });
         element.classList.toggle('active');
     }
 
