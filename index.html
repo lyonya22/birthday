@@ -30,6 +30,23 @@
             overflow-x: hidden;
         }
 
+        /* --- Анимации появления (как на Web-Valley) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Задержки для последовательного появления */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -85,14 +102,6 @@
             letter-spacing: -3px;
         }
 
-        header p {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 600px;
-            font-weight: 300;
-            margin-top: 15px;
-        }
-
         .container {
             max-width: 850px;
             margin: auto;
@@ -107,15 +116,10 @@
             margin-bottom: 30px;
             border-radius: 28px;
             border: 1px solid var(--border);
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-            opacity: 0;
-            transform: translateY(40px);
+            transition: border-color 0.4s ease;
         }
 
-        .card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .card:hover { border-color: rgba(255,255,255,0.2); }
 
         h2 {
             font-size: 1.5rem;
@@ -128,7 +132,7 @@
 
         h2 span { color: var(--gray); font-weight: 300; font-size: 1.1rem; }
 
-        /* Сетка цен */
+        /* Тарифы */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -140,80 +144,25 @@
             padding: 25px;
             border-radius: 20px;
             border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
         }
 
-        .price-item.popular {
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05);
-        }
+        .price-tag { font-size: 1.8rem; font-weight: 800; margin: 10px 0; }
 
-        .price-item h3 { margin: 0; font-size: 1.2rem; }
-        .price-tag { font-size: 1.8rem; font-weight: 800; margin: 15px 0; }
-        .price-tag span { font-size: 0.9rem; color: var(--gray); font-weight: 400; }
-        
-        .price-features {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--gray);
-            flex-grow: 1;
-        }
-
-        .price-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .price-features li::before { content: "—"; color: var(--accent); }
-
-        /* FAQ Аккордеон */
+        /* FAQ */
         .faq-item {
             border-bottom: 1px solid var(--border);
-            padding: 15px 0;
+            padding: 20px 0;
             cursor: pointer;
-        }
-
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 500;
         }
 
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, margin 0.3s ease;
+            transition: max-height 0.3s ease;
             color: var(--gray);
-            font-size: 0.95rem;
         }
 
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            margin-top: 15px;
-        }
-
-        .faq-icon {
-            transition: transform 0.3s ease;
-            font-weight: 300;
-            font-size: 1.5rem;
-        }
-
-        .faq-item.active .faq-icon { transform: rotate(45deg); }
-
-        .skills {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-        }
-
-        .skill {
-            background: rgba(255,255,255,0.03);
-            padding: 14px;
-            border-radius: 14px;
-            text-align: center;
-            font-size: 0.9rem;
-            border: 1px solid var(--border);
-        }
+        .faq-item.active .faq-answer { max-height: 200px; margin-top: 10px; }
 
         .btn-contact {
             background: var(--accent);
@@ -226,26 +175,15 @@
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .btn-contact:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
-        }
+        .btn-contact:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
 
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            color: #333;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-        }
+        footer { text-align: center; padding: 60px; color: #333; font-size: 0.75rem; letter-spacing: 3px; }
 
         @media (max-width: 600px) {
-            header { height: 60vh; }
             .card { padding: 30px 20px; }
-            .pricing-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 3.5rem; }
         }
     </style>
 </head>
@@ -255,97 +193,81 @@
 <div class="bg-glow"></div>
 
 <header>
-    <div class="status-badge">
+    <div class="status-badge reveal">
         <div class="dot"></div> Доступен для новых заказов
     </div>
-    <h1>МАТВЕЙ</h1>
-    <p>Архитектор Telegram-решений и веб-интерфейсов.</p>
+    <h1 class="reveal delay-1">МАТВЕЙ</h1>
+    <p class="reveal delay-2" style="color: var(--gray); font-weight: 300;">Создаю цифровое будущее в Telegram.</p>
 </header>
 
 <div class="container">
 
-    <div class="card">
-        <h2><span>01.</span> Обо мне</h2>
-        <p style="color: var(--gray);">Разработчик из <b>Казахстана</b> с фокусом на автоматизацию. Я создаю не просто ботов, а инструменты, которые приносят прибыль и освобождают ваше время.</p>
+    <div class="card reveal">
+        <h2 class="reveal delay-1"><span>01.</span> Обо мне</h2>
+        <p class="reveal delay-2" style="color: var(--gray);">Разработчик из <b>Казахстана</b>. Помогаю бизнесу автоматизировать процессы с помощью продвинутых ботов и Web-интерфейсов. Мой код — это ваша эффективность.</p>
     </div>
 
-    <div class="card">
-        <h2><span>02.</span> Стоимость</h2>
+    <div class="card reveal">
+        <h2 class="reveal"><span>02.</span> Стоимость</h2>
         <div class="pricing-grid">
-            <div class="price-item">
+            <div class="price-item reveal delay-1">
                 <h3>Light</h3>
                 <div class="price-tag">от 15$</div>
-                <ul class="price-features">
-                    <li>Простые боты визитки</li>
-                    <li>Автоответчики</li>
-                    <li>Сбор заявок</li>
-                </ul>
+                <p style="font-size: 0.8rem; color: var(--gray);">Базовая автоматизация и визитки.</p>
             </div>
-            <div class="price-item popular">
+            <div class="price-item reveal delay-2" style="border-color: rgba(255,255,255,0.2);">
                 <h3>Standard</h3>
                 <div class="price-tag">от 50$</div>
-                <ul class="price-features">
-                    <li>Магазины / Каталоги</li>
-                    <li>Админ-панели</li>
-                    <li>Интеграция оплат</li>
-                </ul>
-            </div>
-            <div class="price-item">
-                <h3>Custom</h3>
-                <div class="price-tag">Индив.</div>
-                <ul class="price-features">
-                    <li>Сложные Mini Apps</li>
-                    <li>Парсеры данных</li>
-                    <li>Уникальные решения</li>
-                </ul>
+                <p style="font-size: 0.8rem; color: var(--gray);">Магазины, платежи, админ-панели.</p>
             </div>
         </div>
     </div>
 
-    <div class="card">
-        <h2><span>03.</span> Вопросы</h2>
+    <div class="card reveal">
+        <h2 class="reveal"><span>03.</span> Вопросы</h2>
         
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Какие сроки разработки? <span class="faq-icon">+</span></div>
-            <div class="faq-answer">Простые боты создаются за 1-3 дня. Сложные проекты с базами данных и WebApps могут занимать от 7 до 14 дней.</div>
+        <div class="faq-item reveal delay-1" onclick="toggleFaq(this)">
+            <div class="faq-question">Какие сроки разработки? <span>+</span></div>
+            <div class="faq-answer">Обычно от 2 до 10 дней в зависимости от сложности.</div>
         </div>
 
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Будет ли поддержка бота? <span class="faq-icon">+</span></div>
-            <div class="faq-answer">Да, я предоставляю бесплатную техническую поддержку в течение 14 дней после запуска проекта для исправления любых багов.</div>
-        </div>
-
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Где будет работать бот? <span class="faq-icon">+</span></div>
-            <div class="faq-answer">Я помогаю с выбором и настройкой сервера (VPS), чтобы ваш бот работал стабильно 24/7.</div>
+        <div class="faq-item reveal delay-2" onclick="toggleFaq(this)">
+            <div class="faq-question">Будет ли поддержка? <span>+</span></div>
+            <div class="faq-answer">Да, я всегда на связи после запуска проекта.</div>
         </div>
     </div>
 
-    <div class="card" style="text-align: center; border-color: rgba(255,255,255,0.2);">
-        <h2><span>04.</span> Начать проект</h2>
-        <p style="margin-bottom: 30px; color: var(--gray);">Опишите вашу задачу, и я предложу оптимальный стек и цену.</p>
-        <button class="btn-contact" onclick="contact()">Связаться со мной</button>
+    <div class="card reveal" style="text-align: center;">
+        <h2 class="reveal" style="justify-content: center;"><span>04.</span> Связь</h2>
+        <p class="reveal delay-1" style="color: var(--gray); margin-bottom: 30px;">Готовы обсудить ваш проект?</p>
+        <div class="reveal delay-2">
+            <button class="btn-contact" onclick="contact()">Написать в Telegram</button>
+        </div>
     </div>
 
 </div>
 
-<footer>
-    &copy; 2026 NEXUS BOTS &bull; Nexus SOLUTIONS
-</footer>
+<footer>&copy; 2026 NEXUS BOTS &bull; MATVEY SOLUTIONS</footer>
 
 <script>
-    // Анимация при скролле
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+    // Универсальная функция появления элементов при скролле
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 100; // Элемент появится, когда до него останется 100px
+            
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
             }
-        });
-    }, { threshold: 0.1 });
+        }
+    }
 
-    document.querySelectorAll('.card').forEach(card => observer.observe(card));
+    // Запуск при скролле и при загрузке
+    window.addEventListener("scroll", reveal);
+    window.addEventListener("load", reveal);
 
-    // Функция FAQ
     function toggleFaq(element) {
         element.classList.toggle('active');
     }
