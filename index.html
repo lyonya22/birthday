@@ -1,147 +1,204 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Лёня | Разработчик ботов</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лёня | Разработчик ботов</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #141414;
+            --accent-white: #ffffff;
+            --text-gray: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
 
-body{
-margin:0;
-font-family:Arial;
-background:#0f0f0f;
-color:white;
-}
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-color);
+            color: var(--accent-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-header{
-text-align:center;
-padding:60px;
-background:linear-gradient(135deg,#6a00ff,#2b00ff);
-}
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
 
-header h1{
-font-size:40px;
-margin:0;
-}
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 3.5rem); /* Адаптивный размер шрифта */
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -1px;
+        }
 
-header p{
-opacity:0.8;
-}
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-top: 10px;
+            font-weight: 300;
+        }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:40px;
-}
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 40px 20px;
+        }
 
-.card{
-background:#1a1a1a;
-padding:25px;
-margin-bottom:25px;
-border-radius:12px;
-transition:0.3s;
-}
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
 
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 10px 25px rgba(0,0,0,0.6);
-}
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
 
-.skills{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:15px;
-}
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
 
-.skill{
-background:#2a2a2a;
-padding:15px;
-border-radius:8px;
-text-align:center;
-}
+        p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
 
-.contact{
-text-align:center;
-}
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
 
-button{
-background:#6a00ff;
-border:none;
-padding:12px 25px;
-color:white;
-font-size:16px;
-border-radius:8px;
-cursor:pointer;
-transition:0.3s;
-}
+        .skill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-white);
+            transition: 0.2s;
+        }
 
-button:hover{
-background:#8a2cff;
-}
+        .skill:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-footer{
-text-align:center;
-padding:20px;
-opacity:0.6;
-}
+        .contact {
+            text-align: center;
+            padding: 50px 20px;
+        }
 
-</style>
+        /* Прозрачная кнопка */
+        .btn-contact {
+            background: transparent;
+            border: 1px solid var(--accent-white);
+            padding: 14px 35px;
+            color: var(--accent-white);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-contact:hover {
+            background: var(--accent-white);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            letter-spacing: 1px;
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+            .card {
+                padding: 20px;
+            }
+            header {
+                padding: 60px 15px;
+            }
+            .skills {
+                grid-template-columns: 1fr 1fr; /* 2 колонки на узких экранах */
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-<h1>Лёня</h1>
-<p>Разработчик Telegram-ботов и автоматизации</p>
+    <h1>Лёня</h1>
+    <p>Разработчик Telegram-ботов и автоматизации</p>
 </header>
 
 <div class="container">
 
-<div class="card">
-<h2>Обо мне</h2>
-<p>
-Я создаю Telegram-ботов, автоматизацию и цифровые инструменты для бизнеса.
-Могу сделать бота под любую задачу: запись клиентов, автопостинг, системы заявок,
-игровые боты и кастомные проекты.
-</p>
-</div>
+    <div class="card">
+        <h2>Обо мне</h2>
+        <p>
+            Я создаю высокопроизводительных Telegram-ботов и инструменты для автоматизации бизнес-процессов. 
+            Фокусируюсь на чистоте кода и удобстве пользователя.
+        </p>
+    </div>
 
-<div class="card">
-<h2>Что я умею</h2>
+    <div class="card">
+        <h2>Экспертиза</h2>
+        <div class="skills">
+            <div class="skill">Telegram API</div>
+            <div class="skill">Автоматизация</div>
+            <div class="skill">Парсинг данных</div>
+            <div class="skill">Бот-менеджмент</div>
+            <div class="skill">Mini Apps</div>
+            <div class="skill">Web-интеграции</div>
+        </div>
+    </div>
 
-<div class="skills">
-
-<div class="skill">Telegram боты</div>
-<div class="skill">Автоматизация бизнеса</div>
-<div class="skill">Парсеры</div>
-<div class="skill">Боты для каналов</div>
-<div class="skill">Игровые боты</div>
-<div class="skill">Сайты</div>
-
-</div>
-
-</div>
-
-<div class="card contact">
-<h2>Связаться со мной</h2>
-<p>Нажми кнопку и напиши мне</p>
-
-<button onclick="contact()">Написать</button>
-
-</div>
+    <div class="contact">
+        <p style="margin-bottom: 25px;">Есть проект? Давайте обсудим.</p>
+        <button class="btn-contact" onclick="contact()">Написать мне</button>
+    </div>
 
 </div>
 
 <footer>
-© 2026 Лёня
+    &copy; 2026 ЛЁНЯ &bull; DIGITAL SOLUTIONS
 </footer>
 
 <script>
-
-function contact(){
-window.open("https://t.me/username");
-}
-
+    function contact(){
+        // Замените 'username' на ваш реальный логин в Telegram
+        window.open("https://t.me/username", "_blank");
+    }
 </script>
 
 </body>
