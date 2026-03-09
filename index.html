@@ -37,7 +37,6 @@
             z-index: -1;
         }
 
-        /* Индикатор статуса */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -67,7 +66,7 @@
         }
 
         header {
-            height: 90vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -87,7 +86,7 @@
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gray);
             max-width: 600px;
             font-weight: 300;
@@ -95,7 +94,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: auto;
             padding: 0 20px 100px;
         }
@@ -118,28 +117,88 @@
             transform: translateY(0);
         }
 
-        .card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
         h2 {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        h2 span { color: var(--gray); font-weight: 300; font-size: 1.2rem; }
+        h2 span { color: var(--gray); font-weight: 300; font-size: 1.1rem; }
 
-        .about-grid {
+        /* Сетка цен */
+        .pricing-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
-            color: var(--gray);
         }
+
+        .price-item {
+            background: rgba(255,255,255,0.02);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-item.popular {
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .price-item h3 { margin: 0; font-size: 1.2rem; }
+        .price-tag { font-size: 1.8rem; font-weight: 800; margin: 15px 0; }
+        .price-tag span { font-size: 0.9rem; color: var(--gray); font-weight: 400; }
+        
+        .price-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+            flex-grow: 1;
+        }
+
+        .price-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .price-features li::before { content: "—"; color: var(--accent); }
+
+        /* FAQ Аккордеон */
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            cursor: pointer;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin 0.3s ease;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 15px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            font-weight: 300;
+            font-size: 1.5rem;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
 
         .skills {
             display: grid;
@@ -154,36 +213,25 @@
             text-align: center;
             font-size: 0.9rem;
             border: 1px solid var(--border);
-            transition: 0.3s;
-        }
-
-        .skill:hover {
-            background: var(--accent);
-            color: var(--bg);
-        }
-
-        .btn-wrap {
-            text-align: center;
-            margin-top: 40px;
         }
 
         .btn-contact {
             background: var(--accent);
             border: none;
-            padding: 20px 50px;
+            padding: 18px 45px;
             color: var(--bg);
             font-size: 1rem;
             font-weight: 700;
             border-radius: 100px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .btn-contact:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
         }
 
         footer {
@@ -195,9 +243,9 @@
         }
 
         @media (max-width: 600px) {
-            header { height: 70vh; }
+            header { height: 60vh; }
             .card { padding: 30px 20px; }
-            .skills { grid-template-columns: 1fr 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -210,58 +258,97 @@
     <div class="status-badge">
         <div class="dot"></div> Доступен для новых заказов
     </div>
-    <h1>Nexus Bots</h1>
-    <p>Создаю интеллектуальные решения для Telegram, которые автоматизируют рутину и масштабируют ваш бизнес.</p>
+    <h1>МАТВЕЙ</h1>
+    <p>Архитектор Telegram-решений и веб-интерфейсов.</p>
 </header>
 
 <div class="container">
 
     <div class="card">
         <h2><span>01.</span> Обо мне</h2>
-        <div class="about-grid">
-            <p>Меня зовут Матвей, я независимый разработчик из <b>Казахстан/Шымкент</b>. Мой путь в кодинге начался с желания упростить жизнь себе, а теперь я помогаю компаниям и предпринимателям по всему миру.</p>
-            <p>Специализируюсь на создании сложных экосистем внутри Telegram: от мощных админ-панелей до игровых механик и интеграций с внешними сервисами. Верю, что бот должен быть не просто чатом, а полноценным продуктом.</p>
+        <p style="color: var(--gray);">Разработчик из <b>Казахстана</b> с фокусом на автоматизацию. Я создаю не просто ботов, а инструменты, которые приносят прибыль и освобождают ваше время.</p>
+    </div>
+
+    <div class="card">
+        <h2><span>02.</span> Стоимость</h2>
+        <div class="pricing-grid">
+            <div class="price-item">
+                <h3>Light</h3>
+                <div class="price-tag">от 15$</div>
+                <ul class="price-features">
+                    <li>Простые боты визитки</li>
+                    <li>Автоответчики</li>
+                    <li>Сбор заявок</li>
+                </ul>
+            </div>
+            <div class="price-item popular">
+                <h3>Standard</h3>
+                <div class="price-tag">от 50$</div>
+                <ul class="price-features">
+                    <li>Магазины / Каталоги</li>
+                    <li>Админ-панели</li>
+                    <li>Интеграция оплат</li>
+                </ul>
+            </div>
+            <div class="price-item">
+                <h3>Custom</h3>
+                <div class="price-tag">Индив.</div>
+                <ul class="price-features">
+                    <li>Сложные Mini Apps</li>
+                    <li>Парсеры данных</li>
+                    <li>Уникальные решения</li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <div class="card">
-        <h2><span>02.</span> Мой стек</h2>
-        <div class="skills">
-            <div class="skill">Автоматизация</div>
-            <div class="skill">Mini Apps</div>
-            <div class="skill">Web-интеграции</div>
-            <div class="skill">Продвинутые Сайты</div>
+        <h2><span>03.</span> Вопросы</h2>
+        
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Какие сроки разработки? <span class="faq-icon">+</span></div>
+            <div class="faq-answer">Простые боты создаются за 1-3 дня. Сложные проекты с базами данных и WebApps могут занимать от 7 до 14 дней.</div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Будет ли поддержка бота? <span class="faq-icon">+</span></div>
+            <div class="faq-answer">Да, я предоставляю бесплатную техническую поддержку в течение 14 дней после запуска проекта для исправления любых багов.</div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Где будет работать бот? <span class="faq-icon">+</span></div>
+            <div class="faq-answer">Я помогаю с выбором и настройкой сервера (VPS), чтобы ваш бот работал стабильно 24/7.</div>
         </div>
     </div>
 
-    <div class="card" style="text-align: center; border-color: rgba(255,255,255,0.3);">
-        <h2><span>03.</span> Проект</h2>
-        <p>Нужен надежный инструмент? Давайте обсудим детали и подберем лучшее техническое решение.</p>
-        <div class="btn-wrap">
-            <button class="btn-contact" onclick="contact()">Написать в Telegram</button>
-        </div>
+    <div class="card" style="text-align: center; border-color: rgba(255,255,255,0.2);">
+        <h2><span>04.</span> Начать проект</h2>
+        <p style="margin-bottom: 30px; color: var(--gray);">Опишите вашу задачу, и я предложу оптимальный стек и цену.</p>
+        <button class="btn-contact" onclick="contact()">Связаться со мной</button>
     </div>
 
 </div>
 
 <footer>
-    &copy; 2026 NEXUS BOTS &bull;
+    &copy; 2026 NEXUS BOTS &bull; Nexus SOLUTIONS
 </footer>
 
 <script>
-    const observerOptions = { threshold: 0.15 };
-
+    // Анимация при скролле
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.card').forEach(card => {
-        observer.observe(card);
-    });
+    document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+    // Функция FAQ
+    function toggleFaq(element) {
+        element.classList.toggle('active');
+    }
 
     function contact(){
         window.open("https://t.me/lyohakray", "_blank");
