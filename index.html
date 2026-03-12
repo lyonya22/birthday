@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexus Bots | Developer</title>
+    <title>Nexus Bots | Developer Portfolio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg: #050505;
-            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-bg: rgba(255, 255, 255, 0.04);
             --accent: #ffffff;
-            --gray: #888888;
-            --border: rgba(255, 255, 255, 0.08);
+            --gray: #999999;
+            --border: rgba(255, 255, 255, 0.1);
             --status-green: #00ff88;
+            --soft-green: rgba(0, 255, 136, 0.1);
         }
 
         * { 
             box-sizing: border-box; 
             scroll-behavior: smooth; 
-            -webkit-tap-highlight-color: transparent; /* Убирает синее выделение при клике на айфоне */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -30,213 +31,225 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--accent);
-            line-height: 1.6;
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
-        /* Индикатор сверху */
+        /* Прогресс-бар */
         #progress-bar {
-            position: fixed; top: 0; left: 0; height: 2px;
-            background: var(--status-green); width: 0%; z-index: 10000;
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--status-green), #00d4ff); 
+            width: 0%; z-index: 10000; transition: width 0.1s;
         }
 
-        /* Кнопка Наверх (минималистичная для мобилок) */
+        /* Кнопка Наверх */
         #scrollTop {
-            position: fixed; bottom: 30px; right: 20px;
-            width: 44px; height: 44px; background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px); color: #fff; border-radius: 50%;
+            position: fixed; bottom: 100px; right: 20px;
+            width: 50px; height: 50px; background: var(--card-bg);
+            backdrop-filter: blur(20px); color: #fff; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; opacity: 0; visibility: hidden;
-            transition: 0.3s; z-index: 999; border: 1px solid var(--border);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 999; border: 1px solid var(--border);
         }
-        #scrollTop.show { opacity: 1; visibility: visible; }
+        #scrollTop.show { opacity: 1; visibility: visible; transform: translateY(-10px); }
 
         .bg-glow {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 100%);
+            background: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #050505 80%);
             z-index: -1;
         }
 
         header {
-            height: 70vh; display: flex; flex-direction: column;
+            height: 80vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center; padding: 20px;
         }
 
         header h1 {
-            font-size: clamp(3.5rem, 15vw, 6rem); font-weight: 800; margin: 0;
-            letter-spacing: -4px; line-height: 0.9;
+            font-size: clamp(3.5rem, 18vw, 8rem); font-weight: 900; margin: 0;
+            letter-spacing: -5px; line-height: 0.85;
+            background: linear-gradient(to bottom, #fff 60%, #444);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .container { max-width: 900px; margin: auto; padding: 0 16px 120px; }
+        .container { max-width: 800px; margin: auto; padding: 0 20px 150px; }
 
+        /* Стили карточек */
         .card {
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            padding: 30px 24px; margin-bottom: 20px; border-radius: 24px;
+            background: var(--card-bg); backdrop-filter: blur(20px);
+            padding: 32px; margin-bottom: 24px; border-radius: 28px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover { border-color: rgba(255, 255, 255, 0.2); }
+
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; margin-top: 0; }
+
+        /* Теги */
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .tech-tag {
+            font-size: 0.75rem; padding: 6px 14px; font-weight: 600;
+            background: rgba(255,255,255,0.05); border-radius: 100px; color: var(--gray);
             border: 1px solid var(--border);
         }
 
-        /* Теги технологий */
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-        .tech-tag {
-            font-size: 0.7rem; padding: 4px 10px; 
-            border: 1px solid var(--border); border-radius: 100px; color: var(--gray);
-        }
+        /* Тарифы */
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+        @media (max-width: 600px) { .pricing-grid { grid-template-columns: 1fr; } }
 
-        /* Сетка цен для мобилок */
-        .pricing-grid { display: grid; gap: 16px; }
         .price-item { 
-            padding: 24px; border-radius: 20px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.01);
+            padding: 28px; border-radius: 24px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.02); transition: 0.3s;
         }
-        .price-item h3 { margin: 0; color: var(--gray); font-size: 0.9rem; text-transform: uppercase; }
-        .price-tag { font-size: 1.8rem; font-weight: 800; margin: 10px 0; }
+        .price-item.popular { border-color: var(--status-green); background: var(--soft-green); }
+        .price-tag { font-size: 2rem; font-weight: 900; margin: 12px 0; }
 
         /* FAQ */
-        .faq-item { border-bottom: 1px solid var(--border); padding: 18px 0; }
-        .faq-question { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem; }
+        .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; cursor: pointer; }
+        .faq-question { display: flex; justify-content: space-between; font-weight: 600; align-items: center; }
         .faq-answer { 
-            max-height: 0; overflow: hidden; transition: 0.3s ease-out; 
-            color: var(--gray); font-size: 0.9rem; padding-right: 20px;
+            max-height: 0; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            color: var(--gray); font-size: 0.95rem; opacity: 0;
         }
-        .faq-item.active .faq-answer { max-height: 150px; margin-top: 10px; }
+        .faq-item.active .faq-answer { max-height: 200px; margin-top: 12px; opacity: 1; }
 
-        /* Кнопка связи */
+        /* Футер и Кнопка */
         .cta-box {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            padding: 20px; background: linear-gradient(0deg, #050505 60%, transparent);
+            padding: 24px; background: linear-gradient(0deg, #050505 70%, transparent);
             z-index: 1000; display: flex; justify-content: center;
         }
 
         .btn-main {
-            width: 100%; max-width: 400px; padding: 18px;
+            width: 100%; max-width: 500px; padding: 20px;
             background: #fff; color: #000; border: none;
-            border-radius: 18px; font-weight: 800; font-size: 1rem;
-            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+            border-radius: 20px; font-weight: 800; font-size: 1.1rem;
+            box-shadow: 0 15px 40px rgba(255,255,255,0.15);
+            transition: transform 0.2s active;
         }
+        .btn-main:active { transform: scale(0.97); }
 
-        /* Анимация появления */
-        .reveal { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* Анимация проявления */
+        .reveal { opacity: 0; transform: translateY(30px) scale(0.98); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
 
-        footer { text-align: center; padding: 40px 20px 140px; color: #222; font-size: 0.7rem; letter-spacing: 2px; }
+        footer { text-align: center; padding: 60px 20px 160px; color: #333; font-size: 0.75rem; font-weight: 600; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
 <div id="progress-bar"></div>
-<div id="scrollTop" onclick="scrollToTop()">↑</div>
+<div id="scrollTop" onclick="scrollToTop()">▲</div>
 <div class="bg-glow"></div>
 
 <header>
-    <div class="reveal" style="font-size: 0.8rem; color: var(--status-green); margin-bottom: 10px; letter-spacing: 2px;">• ONLINE</div>
+    <div class="reveal" style="font-size: 0.75rem; color: var(--status-green); margin-bottom: 15px; letter-spacing: 3px; font-weight: 700;">• AVAILABLE FOR PROJECTS</div>
     <h1 class="reveal">Nexus<br>Bots</h1>
 </header>
 
 <div class="container">
     
     <div class="card reveal">
-        <h2 style="margin-top:0">Обо мне</h2>
-        <p style="color: var(--gray); margin: 0;">Разработчик из Казахстана. Делаю быстрых и надежных ботов для вашего бизнеса.</p>
+        <h2 class="section-title">Обо мне</h2>
+        <p style="color: var(--gray); margin: 0; font-size: 1.1rem;">Разработчик из Казахстана. Специализируюсь на создании высоконагруженных Telegram-систем и автоматизации бизнес-процессов.</p>
         <div class="tech-stack">
             <span class="tech-tag">Python</span>
-            <span class="tech-tag">Aiogram</span>
-            <span class="tech-tag">SQL</span>
-            <span class="tech-tag">API</span>
+            <span class="tech-tag">Aiogram 3.x</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Redis</span>
+            <span class="tech-tag">Docker</span>
         </div>
     </div>
 
-    <div class="pricing-grid reveal">
-        <div class="price-item">
-            <h3>Light</h3>
+    <div class="pricing-grid">
+        <div class="price-item reveal">
+            <h3 style="margin:0; font-size: 0.8rem; color: var(--gray); text-transform: uppercase;">Light</h3>
             <div class="price-tag">от 15$</div>
-            <p style="font-size: 0.8rem; color: var(--gray); margin:0;">Визитки и простые формы.</p>
+            <p style="font-size: 0.9rem; color: var(--gray); margin:0;">Боты-визитки, автоответчики и простые скрипты.</p>
         </div>
-        <div class="price-item" style="border-color: var(--status-green);">
-            <div style="font-size: 0.6rem; color: var(--status-green); margin-bottom: 5px;">POPULAR</div>
-            <h3>Standard</h3>
+        <div class="price-item popular reveal">
+            <div style="font-size: 0.7rem; color: var(--status-green); font-weight: 800; margin-bottom: 8px; letter-spacing: 1px;">MOST POPULAR</div>
+            <h3 style="margin:0; font-size: 0.8rem; text-transform: uppercase;">Standard</h3>
             <div class="price-tag">от 50$</div>
-            <p style="font-size: 0.8rem; color: var(--gray); margin:0;">Магазины и личные кабинеты.</p>
+            <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin:0;">Магазины, системы лояльности и интеграции с API.</p>
         </div>
     </div>
 
-    <div class="card reveal" style="margin-top: 20px; border-color: var(--status-green);">
-    <h2 style="margin-top:0">Пример работы</h2>
-    <p style="color: var(--gray);"><strong>Fitness Elite Market</strong> — бот-магазин спортивного питания с адаптивным интерфейсом, фильтрацией товаров и корзиной.</p>
-    <div style="margin: 15px 0;">
+    <div class="card reveal" style="margin-top: 24px;">
+        <h2 class="section-title">Кейс: Fitness Elite</h2>
+        <p style="color: var(--gray);">Полноценный маркетплейс спортивного питания внутри Telegram. Поддержка онлайн-оплаты, админ-панель и аналитика продаж.</p>
         <a href="https://lyonya22.github.io/nexusbot/#menu" target="_blank" style="text-decoration: none;">
-            <div style="background: var(--status-green); color: #000; padding: 12px; border-radius: 12px; font-weight: 600; text-align: center; font-size: 0.9rem;">
-                Посмотреть проект
+            <div style="background: var(--accent); color: #000; padding: 16px; border-radius: 16px; font-weight: 700; text-align: center; margin-top: 20px;">
+                Открыть демо проекта
             </div>
         </a>
     </div>
-</div>
 
-
-
-
-    
-    <div class="card reveal" style="margin-top: 20px;">
-        <h2>Вопросы</h2>
+    <div class="card reveal">
+        <h2 class="section-title">Вопросы</h2>
         <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Какие сроки? <span>+</span></div>
-            <div class="faq-answer">Обычно от 2 до 7 дней. Зависит от сложности ТЗ.</div>
+            <div class="faq-question">Сколько времени занимает разработка? <span style="font-size: 1.2rem;">+</span></div>
+            <div class="faq-answer">Срок реализации проекта — от 2 до 10 рабочих дней в зависимости от сложности функционала.</div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Нужен ли аванс? <span>+</span></div>
-            <div class="faq-answer">Да, работаю по предоплате 50% после обсуждения проекта.</div>
+            <div class="faq-question">Вы предоставляете хостинг? <span style="font-size: 1.2rem;">+</span></div>
+            <div class="faq-answer">Да, я помогаю с выбором сервера, деплоем и первичной настройкой безопасности бота.</div>
         </div>
     </div>
 
-    <footer>&copy; 2026 NEXUS BOTS</footer>
+    <footer>&copy; 2026 NEXUS BOTS • SHYMKENT</footer>
 </div>
 
 <div class="cta-box">
-    <button class="btn-main" onclick="hapticContact()">ОБСУДИТЬ ПРОЕКТ</button>
+    <button class="btn-main" onclick="hapticContact()">СВЯЗАТЬСЯ В TELEGRAM</button>
 </div>
 
 <script>
-    // Виброотклик (Haptic Feedback)
-    function triggerHaptic() {
+    function triggerHaptic(type = 10) {
         if (window.navigator && window.navigator.vibrate) {
-            window.navigator.vibrate(10); // Легкая вибрация 10мс
+            window.navigator.vibrate(type);
         }
     }
 
     function toggleFaq(el) {
-        triggerHaptic();
+        triggerHaptic(15);
         el.classList.toggle('active');
+        const icon = el.querySelector('span');
+        icon.innerHTML = el.classList.contains('active') ? '−' : '+';
     }
 
     function hapticContact() {
-        triggerHaptic();
+        triggerHaptic([20, 10, 20]);
         setTimeout(() => {
             window.open("https://t.me/lyohakray", "_blank");
-        }, 100);
+        }, 150);
     }
 
     function scrollToTop() {
-        triggerHaptic();
+        triggerHaptic(10);
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // Скролл эффекты
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
     window.onscroll = function() {
-        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let winScroll = document.documentElement.scrollTop;
         let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         document.getElementById("progress-bar").style.width = (winScroll / height) * 100 + "%";
 
         let btn = document.getElementById("scrollTop");
-        if (winScroll > 300) btn.classList.add("show"); else btn.classList.remove("show");
-
-        // Reveal
-        document.querySelectorAll('.reveal').forEach(el => {
-            if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
-        });
+        if (winScroll > 400) btn.classList.add('show'); else btn.classList.remove('show');
     };
 
-    // Запуск при загрузке
     window.onload = () => {
-        document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     };
 </script>
 
